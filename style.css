@@ -1,0 +1,561 @@
+/* ==============================
+   iFood Design System
+   Primary: #EA1D2C (Red)
+   Secondary: #3F3E47 (Dark gray)
+   Background: #F7F7F7
+   Card BG: #FFFFFF
+   ============================== */
+
+* {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f2f2f2;
+    padding: 0;
+    margin: 0;
+    color: #3e3e3e;
+}
+
+/* ===== Navbar ===== */
+.ifood-navbar {
+    background-color: #EA1D2C;
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.ifood-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+}
+
+.ifood-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding-left: 12px;
+    border-left: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ===== Main content ===== */
+.main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+}
+
+/* ===== iFood Cards ===== */
+.ifood-card {
+    background: #fff;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+    height: 100%;
+}
+
+.ifood-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.ifood-card-header {
+    background: #fff;
+    padding: 16px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #3e3e3e;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ifood-card-header i {
+    color: #EA1D2C;
+    font-size: 1.1rem;
+}
+
+.ifood-card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== Form Elements ===== */
+.ifood-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #717171;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.ifood-select,
+.ifood-input {
+    border: 2px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+}
+
+.ifood-select:focus,
+.ifood-input:focus {
+    border-color: #EA1D2C;
+    box-shadow: 0 0 0 3px rgba(234, 29, 44, 0.1);
+}
+
+/* ===== Section Titles ===== */
+.ifood-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #717171;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.ifood-section-title i {
+    color: #EA1D2C;
+}
+
+/* ===== Buttons ===== */
+.ifood-btn-primary {
+    background: #EA1D2C;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ifood-btn-primary:hover {
+    background: #c8101e;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(234, 29, 44, 0.3);
+}
+
+.ifood-btn-primary:disabled {
+    background: #ccc;
+    color: #fff;
+    transform: none;
+    box-shadow: none;
+}
+
+.ifood-btn-success {
+    background: #50a773;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ifood-btn-success:hover {
+    background: #3d8f5f;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(80, 167, 115, 0.3);
+}
+
+.ifood-btn-success:disabled {
+    background: #ccc;
+    color: #fff;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ===== Collapsible ===== */
+.ifood-collapsible {
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #717171;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    margin: 0;
+    border-top: 1px solid #f0f0f0;
+    transition: color 0.2s;
+}
+
+.ifood-collapsible:hover {
+    color: #EA1D2C;
+}
+
+/* ===== Past Purchases ===== */
+.past-purchase {
+    background-color: #fafafa;
+    padding: 10px 12px;
+    margin: 0;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    border-left: 3px solid #EA1D2C;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.past-purchase:hover {
+    background-color: #fff0f0;
+    border-left-color: #c8101e;
+    transform: translateX(2px);
+}
+
+.past-purchase-highlight {
+    background-color: #e8f5e9;
+    border-left: 3px solid #50a773;
+}
+
+/* ===== Product Cards (Menu Items) ===== */
+.ifood-menu-section {
+    margin-top: 8px;
+}
+
+.ifood-menu-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #3e3e3e;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ifood-menu-title i {
+    color: #EA1D2C;
+}
+
+.ifood-menu-badge {
+    background: linear-gradient(135deg, #EA1D2C, #ff6b6b);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.product-card {
+    background: #fff;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: all 0.25s ease;
+    height: 100%;
+    cursor: default;
+}
+
+.product-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+}
+
+.product-card .card-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.product-card .card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #3e3e3e;
+    margin-bottom: 2px;
+    line-height: 1.3;
+}
+
+.product-card .product-category-badge {
+    display: inline-block;
+    background: #f0f0f0;
+    color: #717171;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    width: fit-content;
+    margin-bottom: 8px;
+}
+
+.product-card .product-cuisine {
+    font-size: 0.78rem;
+    color: #999;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.product-card .product-price {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #3e3e3e;
+    margin-top: 6px;
+}
+
+.product-card .product-price small {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #999;
+}
+
+.buy-now-btn {
+    margin-top: auto;
+    background: #EA1D2C;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+.buy-now-btn:hover {
+    background: #c8101e;
+    color: #fff;
+    transform: scale(1.02);
+}
+
+.buy-now-btn:disabled {
+    background: #e8e8e8;
+    color: #b0b0b0;
+    transform: none;
+}
+
+/* Score badge for recommended items */
+.product-score {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, #EA1D2C, #ff6b6b);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 8px;
+}
+
+/* ===== User Purchase Summary (training panel) ===== */
+.user-purchase-summary {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 12px 0;
+}
+
+.user-purchase-summary:last-child {
+    border-bottom: none;
+}
+
+.user-purchase-summary h6 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #3e3e3e;
+    margin-bottom: 6px;
+}
+
+.purchases-badges .badge {
+    font-size: 0.72rem;
+    font-weight: 500;
+    background: #f5f5f5 !important;
+    color: #555 !important;
+    border-radius: 8px;
+    padding: 4px 10px;
+}
+
+/* ===== Training Status ===== */
+.training-status {
+    display: none;
+    margin-top: 10px;
+}
+
+.training-progress {
+    height: 4px;
+    border-radius: 4px;
+}
+
+/* ===== User Purchases Data ===== */
+.user-purchases-data {
+    transition: max-height 0.3s ease;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .main {
+        padding: 16px 12px 40px;
+    }
+
+    .ifood-navbar {
+        padding: 10px 0;
+    }
+
+    .ifood-logo {
+        font-size: 1.2rem;
+    }
+
+    .ifood-subtitle {
+        display: none;
+    }
+
+    #productList .col-md-3 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    #productList .col-md-3 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+/* ===== TensorFlow.js Visor Overrides ===== */
+/* Main visor panel */
+.tfjs-visor {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    border-left: 1px solid #e8e8e8 !important;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Visor header bar */
+.tfjs-visor .visor-controls {
+    background: #fff !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+    padding: 8px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+/* All visor buttons (Maximize, Minimize, Hide) */
+.tfjs-visor .visor-controls button,
+.tfjs-visor .tf-action-button {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 6px 14px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    letter-spacing: 0.2px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    line-height: 1.4 !important;
+}
+
+/* Maximize button — iFood red */
+.tfjs-visor .visor-controls button:first-child {
+    background: #EA1D2C !important;
+    color: #fff !important;
+}
+
+.tfjs-visor .visor-controls button:first-child:hover {
+    background: #c8101e !important;
+    box-shadow: 0 2px 8px rgba(234, 29, 44, 0.3) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Minimize button — soft gray */
+.tfjs-visor .visor-controls button:nth-child(2) {
+    background: #f0f0f0 !important;
+    color: #3e3e3e !important;
+}
+
+.tfjs-visor .visor-controls button:nth-child(2):hover {
+    background: #e0e0e0 !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Hide button — outlined style */
+.tfjs-visor .visor-controls button:last-child {
+    background: transparent !important;
+    color: #999 !important;
+    border: 1.5px solid #e0e0e0 !important;
+}
+
+.tfjs-visor .visor-controls button:last-child:hover {
+    background: #fff0f0 !important;
+    color: #EA1D2C !important;
+    border-color: #EA1D2C !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Tab bar styling */
+.tfjs-visor .tf-tab-bar {
+    background: #fafafa !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+}
+
+.tfjs-visor .tf-tab-bar .tab {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    color: #999 !important;
+    border: none !important;
+    padding: 10px 16px !important;
+    transition: all 0.2s ease !important;
+}
+
+.tfjs-visor .tf-tab-bar .tab:hover {
+    color: #EA1D2C !important;
+}
+
+.tfjs-visor .tf-tab-bar .tab.is-active {
+    color: #EA1D2C !important;
+    border-bottom: 2px solid #EA1D2C !important;
+    background: #fff !important;
+}
+
+/* Surface cards inside visor */
+.tfjs-visor .tfjs-visor-surface {
+    border-radius: 12px !important;
+    border: 1px solid #f0f0f0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    margin: 8px !important;
+    overflow: hidden !important;
+}
+
+.tfjs-visor .tfjs-visor-surface .tf-surface-label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    color: #3e3e3e !important;
+    padding: 12px 16px !important;
+    background: #fafafa !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+}

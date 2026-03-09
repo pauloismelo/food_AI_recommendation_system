@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iFood - Food Recommendation System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <!-- iFood-style top navbar -->
+    <nav class="ifood-navbar">
+        <div class="container-fluid px-4">
+            <div class="d-flex align-items-center justify-content-between w-100">
+                <div class="d-flex align-items-center gap-3">
+                    <span class="ifood-logo">🍔 Food</span>
+                    <span class="ifood-subtitle">AI Recommendation System</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main">
+        <!-- User + Model section -->
+        <div class="row g-4 mb-4">
+            <!-- User Profile Card -->
+            <div class="col-lg-5">
+                <div class="ifood-card">
+                    <div class="ifood-card-header">
+                        <i class="bi bi-person-circle"></i> User Profile
+                    </div>
+                    <div class="ifood-card-body">
+                        <form id="userForm">
+                            <div class="row g-3">
+                                <div class="col-md-5">
+                                    <label for="userSelect" class="ifood-label">Select User</label>
+                                    <select class="form-select ifood-select" id="userSelect">
+                                        <option value="">-- Select a user --</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="userAge" class="ifood-label">Age</label>
+                                    <input type="number" class="form-control ifood-input" id="userAge" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="userRegion" class="ifood-label">Region</label>
+                                    <input type="text" class="form-control ifood-input" id="userRegion" disabled>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div id="pastPurchasesContainer" class="mt-4">
+                            <h6 class="ifood-section-title">
+                                <i class="bi bi-clock-history"></i> Order History
+                            </h6>
+                            <div id="pastPurchasesList" class="row g-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model Training Card -->
+            <div class="col-lg-4">
+                <div class="ifood-card">
+                    <div class="ifood-card-header">
+                        <i class="bi bi-cpu"></i> Model Training
+                    </div>
+                    <div class="ifood-card-body">
+                        <div class="d-flex gap-2 mb-3">
+                            <button id="trainModelBtn" class="btn ifood-btn-primary">
+                                <i class="bi bi-lightning-charge-fill"></i> Train Model
+                            </button>
+                            <button disabled id="runRecommendationBtn" class="btn ifood-btn-success">
+                                <i class="bi bi-stars"></i> Recommend
+                            </button>
+                        </div>
+
+                        <div class="all-users-purchases">
+                            <h6 id="purchasesDiv" class="ifood-collapsible">
+                                <span>All Users' Order History</span>
+                                <i id="purchasesArrow" class="bi bi-chevron-down"></i>
+                            </h6>
+                            <div id="allUsersPurchasesList" class="user-purchases-data overflow-auto"
+                                style="max-height: 400px;display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Section -->
+        <div class="ifood-menu-section">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h3 class="ifood-menu-title">
+                    <i class="bi bi-grid-fill"></i> Menu
+                </h3>
+                <span class="ifood-menu-badge">Powered by AI</span>
+            </div>
+            <div class="row g-3" id="productList">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js"></script>
+    <script type="module" src="./src/index.js"></script>
+</body>
+
+</html>

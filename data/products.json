@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "name": "Artisan X-Burger",
+        "category": "snacks",
+        "price": 32.90,
+        "cuisine": "american"
+    },
+    {
+        "id": 2,
+        "name": "Margherita Pizza",
+        "category": "pizzas",
+        "price": 45.90,
+        "cuisine": "italian"
+    },
+    {
+        "id": 3,
+        "name": "Sushi Combo 20 Pieces",
+        "category": "meals",
+        "price": 59.90,
+        "cuisine": "japanese"
+    },
+    {
+        "id": 4,
+        "name": "Açaí Bowl 500ml with Granola",
+        "category": "desserts",
+        "price": 22.90,
+        "cuisine": "brazilian"
+    },
+    {
+        "id": 5,
+        "name": "Traditional Feijoada",
+        "category": "meals",
+        "price": 38.90,
+        "cuisine": "brazilian"
+    },
+    {
+        "id": 6,
+        "name": "Shrimp Pad Thai",
+        "category": "meals",
+        "price": 42.90,
+        "cuisine": "thai"
+    },
+    {
+        "id": 7,
+        "name": "Chicken Coxinha (10 pcs)",
+        "category": "snacks",
+        "price": 25.90,
+        "cuisine": "brazilian"
+    },
+    {
+        "id": 8,
+        "name": "Soft Drink 600ml",
+        "category": "beverages",
+        "price": 8.90,
+        "cuisine": "american"
+    },
+    {
+        "id": 9,
+        "name": "Bolognese Lasagna",
+        "category": "meals",
+        "price": 35.90,
+        "cuisine": "italian"
+    },
+    {
+        "id": 10,
+        "name": "Petit Gâteau",
+        "category": "desserts",
+        "price": 28.90,
+        "cuisine": "french"
+    }
+]
