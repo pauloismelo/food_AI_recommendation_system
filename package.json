@@ -2,11 +2,17 @@
     "name": "ecommerce-recomendations-with-ml",
     "version": "1.0.0",
     "description": "An e-commerce recommendation system with TensorFlow.js",
-    "main": "index.js",
+    "main": "server/index.js",
     "type": "module",
     "scripts": {
-        "start": "browser-sync -w . --server --files 'index.html, data/*.json, js/*.js' --port 3000",
+        "start": "node server/index.js",
+        "seed": "node prisma/seed.js",
+        "db:migrate": "prisma migrate dev",
+        "db:studio": "prisma studio",
         "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "prisma": {
+        "seed": "node prisma/seed.js"
     },
     "keywords": [
         "ecommerce",
@@ -17,6 +23,12 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "browser-sync": "^3.0.4"
+        "browser-sync": "^3.0.4",
+        "prisma": "^5.22.0"
+    },
+    "dependencies": {
+        "@prisma/client": "^5.22.0",
+        "cors": "^2.8.6",
+        "express": "^5.2.1"
     }
 }

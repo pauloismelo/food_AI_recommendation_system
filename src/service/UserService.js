@@ -1,47 +1,33 @@
 export class UserService {
-    #storageKey = 'ew-academy-users';
-
     async getDefaultUsers() {
-        const response = await fetch('./data/users.json');
-        const users = await response.json();
-        this.#setStorage(users);
-
-        return users;
+        const response = await fetch('/api/users');
+        return await response.json();
     }
 
     async getUsers() {
-        const users = this.#getStorage();
-        return users;
+        const response = await fetch('/api/users');
+        return await response.json();
     }
 
     async getUserById(userId) {
-        const users = this.#getStorage();
-        return users.find(user => user.id === userId);
+        const response = await fetch(`/api/users/${userId}`);
+        return await response.json();
     }
 
     async updateUser(user) {
-        const users = this.#getStorage();
-        const userIndex = users.findIndex(u => u.id === user.id);
-
-        users[userIndex] = { ...users[userIndex], ...user };
-        this.#setStorage(users);
-
-        return users[userIndex];
+        const response = await fetch(`/api/users/${user.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ purchases: user.purchases }),
+        });
+        return await response.json();
     }
 
     async addUser(user) {
-        const users = this.#getStorage();
-        this.#setStorage([user, ...users]);
+        await fetch('/api/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(user),
+        });
     }
-
-    #getStorage() {
-        const data = sessionStorage.getItem(this.#storageKey);
-        return data ? JSON.parse(data) : [];
-    }
-
-    #setStorage(data) {
-        sessionStorage.setItem(this.#storageKey, JSON.stringify(data));
-    }
-
-
 }

@@ -1,6 +1,6 @@
 # 🍔 Food Recommendation System
 
-An **AI-powered food recommendation engine** built entirely in the browser using **TensorFlow.js**. The system learns user preferences from order history and predicts which menu items each user is most likely to enjoy — all running client-side with no backend required.
+An **AI-powered food recommendation engine** using **TensorFlow.js**. The system learns user preferences from order history and predicts which menu items each user is most likely to enjoy — with data persisted in a **PostgreSQL** database and served via a **Node.js/Express** REST API.
 
 > 🎓 Academic project for the **Software Engineering with Applied AI** postgraduate program — Module 01: Fundamentals of AI & LLMs for Programmers.
 
@@ -14,6 +14,8 @@ An **AI-powered food recommendation engine** built entirely in the browser using
 - **Web Worker training** — Model training runs in a separate thread, keeping the UI responsive
 - **Live training visualization** — Real-time accuracy and loss charts via TensorFlow.js Visor (tfjs-vis)
 - **Interactive user profiles** — Select users, view order history, add/remove purchases dynamically
+- **PostgreSQL persistence** — All data stored in a relational database; purchases persist across sessions
+- **REST API** — Express backend exposes `/api/products` and `/api/users` endpoints
 - **Modern iFood-inspired UI** — Fully styled with the iFood design system (red #EA1D2C, Inter font, rounded cards)
 
 ---
@@ -71,9 +73,16 @@ ifood_recomendations/
 ├── index.html                          # Main page (iFood-styled UI)
 ├── style.css                           # iFood design system styles
 ├── package.json                        # Project config & scripts
-├── data/
-│   ├── products.json                   # Menu items (10 food products)
-│   └── users.json                      # User profiles with order history
+├── .env                                # Database URL and server config
+├── prisma/
+│   ├── schema.prisma                   # Database schema (Product, User, Purchase)
+│   ├── seed.js                         # Populates DB with initial data
+│   └── migrations/                     # Auto-generated SQL migrations
+├── server/
+│   ├── index.js                        # Express server (static files + API)
+│   └── routes/
+│       ├── products.js                 # GET /api/products, GET /api/products/:id
+│       └── users.js                    # GET/POST /api/users, GET/PUT /api/users/:id
 └── src/
     ├── index.js                        # App entry point & dependency wiring
     ├── controller/
@@ -86,8 +95,8 @@ ifood_recomendations/
     │   ├── constants.js                 # Event & worker message types
     │   └── events.js                    # Custom event bus (pub/sub)
     ├── service/
-    │   ├── ProductService.js            # Product data access
-    │   └── UserService.js               # User data access (sessionStorage)
+    │   ├── ProductService.js            # Product data access (REST API)
+    │   └── UserService.js               # User data access (REST API)
     ├── view/
     │   ├── ModelTrainingView.js         # Training UI (buttons, progress)
     │   ├── ProductView.js               # Product card rendering
@@ -107,8 +116,8 @@ ifood_recomendations/
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v18+)
-- A modern browser with ES Modules support
+- [Node.js](https://nodejs.org/) v18+
+- [PostgreSQL](https://www.postgresql.org/) v14+ running locally
 
 ### Installation
 
@@ -119,19 +128,90 @@ cd ifood_recomendations
 
 # Install dependencies
 npm install
+
+# Configure the database URL in .env
+# Default: postgresql://USER@localhost:5432/ifood_recommendations
+```
+
+### Database Setup
+
+```bash
+# Run migrations (creates the tables)
+npm run db:migrate
+
+# Populate the database with initial data
+npm run seed
 ```
 
 ### Running the App
 
 ```bash
-# Option 1: Using npm start (browser-sync, port 3000)
 npm start
-
-# Option 2: Using http-server (port 8080)
-npx http-server -c-1 -p 8080
+# → http://localhost:3000
 ```
 
-Then open your browser at `http://localhost:8080` (or `http://localhost:3000`).
+---
+
+## 🗄️ Database
+
+### Schema
+
+Three tables managed by **Prisma ORM**:
+
+```
+Product          User             Purchase
+────────         ────────         ─────────────────
+id (PK)          id (PK)          id (PK)
+name             name             userId  → User
+category         age              productId → Product
+price            region
+cuisine
+```
+
+`Purchase` is a join table with a `@@unique([userId, productId])` constraint.
+
+### Seed Data
+
+Initial data is defined in [prisma/seed.js](prisma/seed.js) and mirrors the original JSON files:
+
+- **10 products** across 5 categories and 6 cuisines
+- **6 users** (5 with purchase history + 1 demo user "Josézin da Silva")
+
+### Available Scripts
+
+| Command | Description |
+| --- | --- |
+| `npm start` | Start the Express server |
+| `npm run seed` | Populate the database with initial data |
+| `npm run db:migrate` | Run pending Prisma migrations |
+| `npm run db:studio` | Open Prisma Studio (visual DB browser) |
+
+---
+
+## 🌐 REST API
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| GET | `/api/products` | List all products |
+| GET | `/api/products/:id` | Get a single product |
+| GET | `/api/users` | List all users with purchases |
+| GET | `/api/users/:id` | Get a single user with purchases |
+| POST | `/api/users` | Create or upsert a user |
+| PUT | `/api/users/:id` | Update a user's purchases |
+
+Users are returned in the format the frontend expects:
+
+```json
+{
+  "id": 1,
+  "name": "Ana Lima",
+  "age": 25,
+  "region": "sao_paulo",
+  "purchases": [
+    { "id": 3, "name": "Sushi Combo 20 Pieces", "category": "meals", "price": 59.9, "cuisine": "japanese" }
+  ]
+}
+```
 
 ---
 
@@ -140,7 +220,7 @@ Then open your browser at `http://localhost:8080` (or `http://localhost:3000`).
 1. **Select a user** from the dropdown — their age, region, and order history will appear
 2. **Click "Train Model"** — the neural network trains on all users' order data (watch the live charts!)
 3. **Click "Recommend"** — the model predicts and reorders the menu by relevance for the selected user
-4. **Add orders** — click "Add to Order" on any menu item to update the user's history
+4. **Add orders** — click "Add to Order" on any menu item to update the user's history (saved to DB)
 5. **Retrain** — after adding orders, retrain the model to see updated recommendations
 
 ---
@@ -151,18 +231,20 @@ Then open your browser at `http://localhost:8080` (or `http://localhost:3000`).
 | --- | --- |
 | **TensorFlow.js** v4.22 | Neural network training & inference in the browser |
 | **tfjs-vis** v1.5.1 | Real-time training visualization (accuracy/loss charts) |
+| **Express** v5 | REST API server and static file serving |
+| **Prisma** v5 | ORM for database schema management and queries |
+| **PostgreSQL** v14 | Relational database for products, users, and purchases |
 | **Bootstrap** v5.3 | Responsive grid & base components |
 | **Bootstrap Icons** | UI iconography |
 | **Inter Font** | Typography (Google Fonts) |
 | **Web Workers API** | Off-main-thread model training |
 | **ES Modules** | Native JavaScript module system |
-| **SessionStorage** | Client-side user data persistence |
 
 ---
 
 ## 📊 Data Overview
 
-### Menu Items (`products.json`)
+### Menu Items
 
 | ID | Name | Category | Cuisine | Price |
 | --- | --- | --- | --- | --- |
@@ -177,7 +259,7 @@ Then open your browser at `http://localhost:8080` (or `http://localhost:3000`).
 | 9 | Bolognese Lasagna | meals | italian | R$ 35.90 |
 | 10 | Petit Gâteau | desserts | french | R$ 28.90 |
 
-### Users (`users.json`)
+### Users
 
 | User | Age | Region | Taste Profile |
 | --- | --- | --- | --- |
@@ -186,6 +268,7 @@ Then open your browser at `http://localhost:8080` (or `http://localhost:3000`).
 | Camila Souza | 32 | Curitiba | Italian cuisine |
 | Diego Almeida | 22 | Belo Horizonte | Brazilian comfort food |
 | Eduarda Nunes | 28 | São Paulo | Eclectic (italian, french, japanese) |
+| Josézin da Silva | 30 | São Paulo | Demo user (no purchase history) |
 
 ---
 
@@ -201,13 +284,16 @@ Then open your browser at `http://localhost:8080` (or `http://localhost:3000`).
                                     │  Services   │
                                     │ (Data Layer)│
                                     └──────┬──────┘
-                                           │
-                           ┌───────────────┴───────────────┐
-                           │                               │
-                    ┌──────┴──────┐                ┌───────┴───────┐
-                    │ JSON Files  │                │ SessionStorage│
-                    │ (products)  │                │   (users)     │
-                    └─────────────┘                └───────────────┘
+                                           │ REST API
+                                    ┌──────┴──────┐
+                                    │   Express   │
+                                    │   Server    │
+                                    └──────┬──────┘
+                                           │ Prisma ORM
+                                    ┌──────┴──────┐
+                                    │ PostgreSQL  │
+                                    │  Database   │
+                                    └─────────────┘
 
 ┌─────────────────────────────────────────────────┐
 │              Web Worker (separate thread)         │
