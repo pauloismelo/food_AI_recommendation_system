@@ -16,6 +16,7 @@ An **AI-powered food recommendation engine** using **TensorFlow.js**. The system
 - **Interactive user profiles** — Select users, view order history, add/remove purchases dynamically
 - **PostgreSQL persistence** — All data stored in a relational database; purchases persist across sessions
 - **REST API** — Express backend exposes `/api/products` and `/api/users` endpoints
+- **Unit tests** — 35 tests covering all API routes and frontend services (Vitest + Supertest)
 - **Modern iFood-inspired UI** — Fully styled with the iFood design system (red #EA1D2C, Inter font, rounded cards)
 
 ---
@@ -79,10 +80,19 @@ ifood_recomendations/
 │   ├── seed.js                         # Populates DB with initial data
 │   └── migrations/                     # Auto-generated SQL migrations
 ├── server/
-│   ├── index.js                        # Express server (static files + API)
+│   ├── app.js                          # Express app (mountable, used in tests)
+│   ├── index.js                        # Server entry point (calls app.listen)
 │   └── routes/
 │       ├── products.js                 # GET /api/products, GET /api/products/:id
 │       └── users.js                    # GET/POST /api/users, GET/PUT /api/users/:id
+├── tests/
+│   ├── server/
+│   │   ├── products.test.js            # Route tests for /api/products
+│   │   └── users.test.js               # Route tests for /api/users
+│   └── src/
+│       ├── ProductService.test.js      # Unit tests for ProductService
+│       └── UserService.test.js         # Unit tests for UserService
+├── vitest.config.js                    # Test runner configuration
 └── src/
     ├── index.js                        # App entry point & dependency wiring
     ├── controller/
@@ -185,6 +195,8 @@ Initial data is defined in [prisma/seed.js](prisma/seed.js) and mirrors the orig
 | `npm run seed` | Populate the database with initial data |
 | `npm run db:migrate` | Run pending Prisma migrations |
 | `npm run db:studio` | Open Prisma Studio (visual DB browser) |
+| `npm test` | Run all tests once (CI) |
+| `npm run test:watch` | Run tests in watch mode (development) |
 
 ---
 
@@ -234,6 +246,8 @@ Users are returned in the format the frontend expects:
 | **Express** v5 | REST API server and static file serving |
 | **Prisma** v5 | ORM for database schema management and queries |
 | **PostgreSQL** v14 | Relational database for products, users, and purchases |
+| **Vitest** v4 | Unit and integration test runner (ES Module native) |
+| **Supertest** | HTTP integration tests for Express routes |
 | **Bootstrap** v5.3 | Responsive grid & base components |
 | **Bootstrap Icons** | UI iconography |
 | **Inter Font** | Typography (Google Fonts) |
@@ -269,6 +283,29 @@ Users are returned in the format the frontend expects:
 | Diego Almeida | 22 | Belo Horizonte | Brazilian comfort food |
 | Eduarda Nunes | 28 | São Paulo | Eclectic (italian, french, japanese) |
 | Josézin da Silva | 30 | São Paulo | Demo user (no purchase history) |
+
+---
+
+## 🧪 Tests
+
+```bash
+npm test           # run once
+npm run test:watch # watch mode
+```
+
+**35 tests across 4 files:**
+
+| File | Tests | Scope |
+| --- | --- | --- |
+| `tests/server/products.test.js` | 5 | `GET /api/products`, `GET /api/products/:id`, 404 handling |
+| `tests/server/users.test.js` | 11 | `GET`, `POST`, `PUT /api/users`, purchase replacement, 404 handling |
+| `tests/src/ProductService.test.js` | 8 | `getProducts`, `getProductById`, `getProductsByIds` |
+| `tests/src/UserService.test.js` | 11 | `getDefaultUsers`, `getUsers`, `getUserById`, `updateUser`, `addUser` |
+
+**Strategy:**
+- Route tests use **Supertest** to fire real HTTP requests against the Express app, with **Prisma mocked** via `vi.mock('@prisma/client')` — no database required
+- Service tests mock `global.fetch` to verify the correct API endpoints and request payloads are used
+- `vi.hoisted()` ensures mock references are available before module imports are resolved
 
 ---
 
